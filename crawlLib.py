@@ -95,7 +95,6 @@ class Crawler:
               pinsRead = set ()
               coleta =1
 
-              info = open(pathBoards+"/"+albumName+"/timeline","a")
               print nPinsOnBoard
 
 
@@ -122,11 +121,6 @@ class Crawler:
 
                      if not (pin in pinsRead):
                         htmlPin  = self.pinterest.fetchSimple("http://pinterest.com"+ pin)
-                        timeAgo = re.search('class="commentDescriptionTimeAgo">(.*)</span>',htmlPin)
-                        timeCreate= self.findTime(timeAgo.group(1))
-                        if ( timeCreate  == -1):
-                            coleta = 0
-                            break
                         pinsRead.add(pin)
                         print len(pinsRead)
 
@@ -134,8 +128,17 @@ class Crawler:
                         pinStream = gzip.open(pathBoards+"/"+albumName+"/"+pin.split("/")[2],"w")
                         pinStream.write(htmlPin)
                         pinStream.close()
-                        #add the meta info telling when the content was created
-                        info.write(pin.split("/")[2] +";" + str(timeCreate) + ";" + str(datetime.now())+"\n")
+
+                        #save Image
+                        imageUrl= re.search('<img src="(.*)" class="pinImage" ',htmlPin)
+                        print imageUrl.group(1)
+                        image = self.pinterest.getImage(imageUrl.group(1))
+                        pinStream = open(pathBoards+"/"+albumName+"/"+pin.split("/")[2]+".jpg","w")
+                        pinStream.write(image)
+                        pinStream.close()
+
+
+
 
 
 

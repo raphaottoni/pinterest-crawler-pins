@@ -45,6 +45,30 @@ class Pinterest:
             return 1
     return html
 
+  def getImage(self,url):
+    done=0
+    while(not done):
+        try:
+            print "tentando pegar"
+            req = urllib2.Request(url, None)
+            f = urllib2.urlopen(req)
+            html = f.read()
+            done=1;
+        except urllib2.HTTPError, e:
+            if ( hasattr(e, 'code') and e.code == 404):
+              return 1
+            continue
+        except urllib2.URLError, e:
+          if ( hasattr(e, 'code') and e.code == 404):
+            return 1
+          continue
+        except Exception , e :
+          print e
+          time.sleep(random.randint(0,2))
+          continue
+    return html
+
+
   def fetchPins(self,url,qtd):
     done=0
     while(not done):
