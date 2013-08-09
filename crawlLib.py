@@ -133,9 +133,10 @@ class Crawler:
                         imageUrl= re.search('<img src="(.*)" class="pinImage" ',htmlPin)
                         print imageUrl.group(1)
                         image = self.pinterest.getImage(imageUrl.group(1))
-                        pinStream = open(pathBoards+"/"+albumName+"/"+pin.split("/")[2]+".jpg","w")
-                        pinStream.write(image)
-                        pinStream.close()
+                        if image != 1:
+                            pinStream = open(pathBoards+"/"+albumName+"/"+pin.split("/")[2]+".jpg","w")
+                            pinStream.write(image)
+                            pinStream.close()
 
 
 
@@ -154,16 +155,4 @@ class Crawler:
                          htmlBoard = self.pinterest.fetchPins("http://pinterest.com"+ albumLink, str(nRequest) )
                       else:
                           break
-
-              info.close()
-
-
-
-
-
-    #    #talvez tirar esse if, pq nao precisa ser dono do album
-    #    if (albumLink.split("/")[1] == pinterestID):
-    #      qtdPaginas = int(nPins)/50
-    #      j = 0
-    #      parada = 0
     return 0

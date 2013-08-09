@@ -55,11 +55,11 @@ class Pinterest:
             html = f.read()
             done=1;
         except urllib2.HTTPError, e:
-            if ( hasattr(e, 'code') and e.code == 404):
+            if ( hasattr(e, 'code') and (e.code == 404 or e.code == 403)):
               return 1
             continue
         except urllib2.URLError, e:
-          if ( hasattr(e, 'code') and e.code == 404):
+          if ( hasattr(e, 'code') and (e.code == 404 or e.code == 403)):
             return 1
           continue
         except Exception , e :
